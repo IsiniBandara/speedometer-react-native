@@ -1,43 +1,45 @@
 import React from "react";
-import { StyleSheet } from "react-native";
-import { DataTable } from "react-native-paper";
+import { View, StyleSheet, ScrollView } from "react-native";
+import { Table, Row, Rows } from "react-native-table-component";
 
 const TableComponent = () => {
-  return (
-    <DataTable style={styles.container}>
-      <DataTable.Header style={styles.tableHeader}>
-        <DataTable.Title>Name</DataTable.Title>
-        <DataTable.Title>Current</DataTable.Title>
-      </DataTable.Header>
-      <DataTable.Row>
-        <DataTable.Cell>Radhika</DataTable.Cell>
-        <DataTable.Cell>23</DataTable.Cell>
-      </DataTable.Row>
+  // Sample data for the table
+  const tableData = [
+    ["Main Socket", "25"],
+    ["Socket A", "65"],
+    ["Socket B", "85"],
+  ];
 
-      <DataTable.Row>
-        <DataTable.Cell>Krishna</DataTable.Cell>
-        <DataTable.Cell>26</DataTable.Cell>
-      </DataTable.Row>
-      <DataTable.Row>
-        <DataTable.Cell>Vanshika</DataTable.Cell>
-        <DataTable.Cell>20</DataTable.Cell>
-      </DataTable.Row>
-      <DataTable.Row>
-        <DataTable.Cell>Teena</DataTable.Cell>
-        <DataTable.Cell>24</DataTable.Cell>
-      </DataTable.Row>
-    </DataTable>
+  return (
+    <ScrollView style={styles.container}>
+      <Table borderStyle={styles.border}>
+        <Row
+          data={["Name", "Current"]}
+          style={styles.header}
+          textStyle={styles.headerText}
+        />
+        <Rows data={tableData} textStyle={styles.rowText} />
+      </Table>
+    </ScrollView>
   );
 };
 
-export default TableComponent;
-
 const styles = StyleSheet.create({
   container: {
-    padding: 20,
-    width: 300, // Set your desired width for the table
+    flex: 1,
+    padding: 16,
+    paddingTop: 30,
+    backgroundColor: "#121212",
   },
-  tableHeader: {
-    backgroundColor: "#DCDCDC",
+  border: { borderWidth: 2, borderColor: "#20232a" },
+  header: { height: 40, backgroundColor: "#282c34" },
+  headerText: {
+    margin: 6,
+    color: "#61dafb",
+    textAlign: "center",
+    fontWeight: "bold",
   },
+  rowText: { margin: 6, color: "white", textAlign: "center" },
 });
+
+export default TableComponent;

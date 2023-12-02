@@ -1,81 +1,51 @@
+// SpeedometerApp.js
 import React, { Component } from "react";
-import { SafeAreaView, StyleSheet, TextInput, View } from "react-native";
+import {
+  SafeAreaView,
+  StyleSheet,
+  TextInput,
+  View,
+  Dimensions,
+} from "react-native";
+import { color } from "react-native-elements/dist/helpers";
 import { Card, Text } from "react-native-paper";
 import RNSpeedometer from "react-native-speedometer-new";
 
+const { width } = Dimensions.get("window");
+
 class SpeedometerApp extends Component {
   state = {
-    mainSpeedometerValue: 0,
-    subSpeedometer1Value: 0,
-    subSpeedometer2Value: 0,
+    value: 0,
   };
 
-  onChangeMainSpeedometer = (value) =>
-    this.setState({ mainSpeedometerValue: parseInt(value) });
-  onChangeSubSpeedometer1 = (value) =>
-    this.setState({ subSpeedometer1Value: parseInt(value) });
-  onChangeSubSpeedometer2 = (value) =>
-    this.setState({ subSpeedometer2Value: parseInt(value) });
+  onChange = (value) => this.setState({ value: parseInt(value) });
 
   render() {
+    const { title } = this.props;
+
     return (
-      <SafeAreaView style={styles.container}>
+      <SafeAreaView style={[styles.container, this.props.style]}>
         <Card style={styles.card}>
-          <Card.Content>
+          <Card.Content style={styles.cardContent}>
+            <Text style={styles.title}>{title}</Text>
             <TextInput
-              placeholder="Current Value"
+              placeholder="Speedometer Value"
               style={styles.textInput}
-              onChangeText={this.onChangeMainSpeedometer}
+              onChangeText={this.onChange}
+              placeholderTextColor="#999"
+              keyboardType="numeric" // Ensure numeric keyboard for better input experience
             />
             <View style={styles.row}>
-              <Text style={styles.cell}>Current:</Text>
-              <Text style={styles.cell}>{this.state.mainSpeedometerValue}</Text>
+              <Text style={styles.cell}>Speed:</Text>
+              <Text style={styles.cell}>{this.state.value}</Text>
             </View>
-            <RNSpeedometer value={this.state.mainSpeedometerValue} size={200} />
+            <RNSpeedometer
+              value={this.state.value}
+              size={width * 0.4}
+              style={styles.value} // Add your desired primary color
+            />
           </Card.Content>
         </Card>
-
-        <View style={styles.subSpeedometersContainer}>
-          <Card style={styles.subSpeedometerCard}>
-            <Card.Content>
-              <TextInput
-                placeholder="Current Value"
-                style={styles.textInput}
-                onChangeText={this.onChangeSubSpeedometer1}
-              />
-              <View style={styles.row}>
-                <Text style={styles.cell}>Current:</Text>
-                <Text style={styles.cell}>
-                  {this.state.subSpeedometer1Value}
-                </Text>
-              </View>
-              <RNSpeedometer
-                value={this.state.subSpeedometer1Value}
-                size={100}
-              />
-            </Card.Content>
-          </Card>
-
-          <Card style={styles.subSpeedometerCard}>
-            <Card.Content>
-              <TextInput
-                placeholder="Current Value"
-                style={styles.textInput}
-                onChangeText={this.onChangeSubSpeedometer2}
-              />
-              <View style={styles.row}>
-                <Text style={styles.cell}>Current:</Text>
-                <Text style={styles.cell}>
-                  {this.state.subSpeedometer2Value}
-                </Text>
-              </View>
-              <RNSpeedometer
-                value={this.state.subSpeedometer2Value}
-                size={100}
-              />
-            </Card.Content>
-          </Card>
-        </View>
       </SafeAreaView>
     );
   }
@@ -83,31 +53,31 @@ class SpeedometerApp extends Component {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    padding: 16,
-    width: 300,
-    marginTop: 20,
+    width: "100%",
+    backgroundColor: "#121212", // Dark background color
   },
   card: {
-    marginBottom: 36,
     width: "100%",
+    marginBottom: 50,
+    backgroundColor: "#1E1E1E", // Dark card background color
   },
-  subSpeedometersContainer: {
-    flexDirection: "row",
-    justifyContent: "space-between",
+  cardContent: {
+    backgroundColor: "#1E1E1E", // Dark card content background color
   },
-  subSpeedometerCard: {
-    flex: 1,
-    marginRight: 10,
+  title: {
+    fontSize: 18,
+    fontWeight: "bold",
+    marginBottom: 10,
+    textAlign: "center",
+    color: "#FFF", // White text color
   },
   textInput: {
     borderBottomWidth: 0.3,
-    borderBottomColor: "black",
+    borderBottomColor: "#999", // Darker border color
     height: 25,
     fontSize: 16,
     marginBottom: 26,
+    color: "#FFF", // White text color
   },
   row: {
     flexDirection: "row",
@@ -116,6 +86,10 @@ const styles = StyleSheet.create({
   },
   cell: {
     fontSize: 16,
+    color: "#FFF", // White text color
+  },
+  value: {
+    color: "#ffffff",
   },
 });
 
